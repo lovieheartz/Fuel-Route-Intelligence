@@ -1,0 +1,249 @@
+{
+  "info": {
+    "name": "Fuel Routing API",
+    "description": "Collection for testing the Fuel Routing API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/health/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "health", ""]
+        },
+        "description": "Check if the API is healthy and database is connected"
+      },
+      "response": []
+    },
+    {
+      "name": "Plan Route - Short Distance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"San Francisco, CA\",\n  \"end_location\": \"Los Angeles, CA\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/v1/plan/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "plan", ""]
+        },
+        "description": "Plan a short route from San Francisco to Los Angeles"
+      },
+      "response": []
+    },
+    {
+      "name": "Plan Route - Cross Country",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"New York, NY\",\n  \"end_location\": \"Los Angeles, CA\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/v1/plan/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "plan", ""]
+        },
+        "description": "Plan a cross-country route from New York to Los Angeles"
+      },
+      "response": []
+    },
+    {
+      "name": "Plan Route - Regional",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"Denver, CO\",\n  \"end_location\": \"Chicago, IL\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/v1/plan/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "plan", ""]
+        },
+        "description": "Plan a regional route from Denver to Chicago"
+      },
+      "response": []
+    },
+    {
+      "name": "Plan Route - Seattle to Miami",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"Seattle, WA\",\n  \"end_location\": \"Miami, FL\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/v1/plan/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "plan", ""]
+        },
+        "description": "Plan a long route from Seattle to Miami"
+      },
+      "response": []
+    },
+    {
+      "name": "List All Stations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/stations/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "stations", ""]
+        },
+        "description": "Get a paginated list of all fuel stations"
+      },
+      "response": []
+    },
+    {
+      "name": "List Stations by State",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/stations/?state=CA",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "stations", ""],
+          "query": [
+            {
+              "key": "state",
+              "value": "CA"
+            }
+          ]
+        },
+        "description": "Get all fuel stations in California"
+      },
+      "response": []
+    },
+    {
+      "name": "List Stations - Sorted by Price",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/stations/?ordering=retail_price",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "stations", ""],
+          "query": [
+            {
+              "key": "ordering",
+              "value": "retail_price"
+            }
+          ]
+        },
+        "description": "Get stations sorted by price (lowest first)"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Station Details",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/stations/1/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "stations", "1", ""]
+        },
+        "description": "Get details of a specific fuel station"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Cheapest Stations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/stations/cheapest/?limit=10",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "stations", "cheapest", ""],
+          "query": [
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Get the 10 cheapest fuel stations nationwide"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Cheapest Stations by State",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/stations/cheapest/?state=TX&limit=5",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "v1", "stations", "cheapest", ""],
+          "query": [
+            {
+              "key": "state",
+              "value": "TX"
+            },
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        },
+        "description": "Get the 5 cheapest fuel stations in Texas"
+      },
+      "response": []
+    }
+  ]
+}

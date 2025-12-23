@@ -1,0 +1,371 @@
+{
+  "info": {
+    "name": "Spotter AI - Fuel Routing API",
+    "description": "Production-grade fuel routing optimization API with comprehensive error handling and validation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "spotter-ai-fuel-routing",
+    "version": "2.0.0"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000/api/v1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health/",
+          "host": ["{{base_url}}"],
+          "path": ["health", ""]
+        },
+        "description": "Check API health and service status. This should always be fast (< 50ms)."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Plan Route - LA to SF",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"Los Angeles, CA\",\n  \"end_location\": \"San Francisco, CA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/plan/",
+          "host": ["{{base_url}}"],
+          "path": ["plan", ""]
+        },
+        "description": "Plan optimal route from Los Angeles to San Francisco (~380 miles). First request takes 2-5 seconds, subsequent requests are cached and return in < 100ms."
+      },
+      "response": []
+    },
+    {
+      "name": "3. Plan Route - NY to LA",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"New York, NY\",\n  \"end_location\": \"Los Angeles, CA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/plan/",
+          "host": ["{{base_url}}"],
+          "path": ["plan", ""]
+        },
+        "description": "Plan cross-country route from New York to Los Angeles (~2,800 miles). Will have multiple fuel stops."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Plan Route - Seattle to Miami",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"Seattle, WA\",\n  \"end_location\": \"Miami, FL\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/plan/",
+          "host": ["{{base_url}}"],
+          "path": ["plan", ""]
+        },
+        "description": "Plan coast-to-coast route from Seattle to Miami (~3,300 miles)."
+      },
+      "response": []
+    },
+    {
+      "name": "5. Plan Route - Short Distance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"Los Angeles, CA\",\n  \"end_location\": \"San Diego, CA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/plan/",
+          "host": ["{{base_url}}"],
+          "path": ["plan", ""]
+        },
+        "description": "Short route that may not need any fuel stops (~120 miles)."
+      },
+      "response": []
+    },
+    {
+      "name": "6. List All Fuel Stations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/stations/?page=1&page_size=10",
+          "host": ["{{base_url}}"],
+          "path": ["stations", ""],
+          "query": [
+            {
+              "key": "page",
+              "value": "1",
+              "description": "Page number"
+            },
+            {
+              "key": "page_size",
+              "value": "10",
+              "description": "Results per page (max 100)"
+            }
+          ]
+        },
+        "description": "Get paginated list of all fuel stations. Default page size is 100."
+      },
+      "response": []
+    },
+    {
+      "name": "7. Filter Stations by State",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/stations/?state=CA&page_size=20",
+          "host": ["{{base_url}}"],
+          "path": ["stations", ""],
+          "query": [
+            {
+              "key": "state",
+              "value": "CA",
+              "description": "Two-letter state code"
+            },
+            {
+              "key": "page_size",
+              "value": "20"
+            }
+          ]
+        },
+        "description": "Get fuel stations in California only."
+      },
+      "response": []
+    },
+    {
+      "name": "8. Search Stations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/stations/?search=pilot&page_size=10",
+          "host": ["{{base_url}}"],
+          "path": ["stations", ""],
+          "query": [
+            {
+              "key": "search",
+              "value": "pilot",
+              "description": "Search by name, city, state, or address"
+            },
+            {
+              "key": "page_size",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Search for stations by name, city, state, or address."
+      },
+      "response": []
+    },
+    {
+      "name": "9. Get Cheapest Stations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/stations/cheapest/?limit=10",
+          "host": ["{{base_url}}"],
+          "path": ["stations", "cheapest", ""],
+          "query": [
+            {
+              "key": "limit",
+              "value": "10",
+              "description": "Number of results (max 100)"
+            }
+          ]
+        },
+        "description": "Get the 10 cheapest fuel stations across all states."
+      },
+      "response": []
+    },
+    {
+      "name": "10. Cheapest Stations in CA",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/stations/cheapest/?state=CA&limit=5",
+          "host": ["{{base_url}}"],
+          "path": ["stations", "cheapest", ""],
+          "query": [
+            {
+              "key": "state",
+              "value": "CA",
+              "description": "Two-letter state code"
+            },
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        },
+        "description": "Get the 5 cheapest fuel stations in California."
+      },
+      "response": []
+    },
+    {
+      "name": "11. Get Station by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/stations/1/",
+          "host": ["{{base_url}}"],
+          "path": ["stations", "1", ""]
+        },
+        "description": "Get details of a specific fuel station by ID."
+      },
+      "response": []
+    },
+    {
+      "name": "12. Test Invalid Location",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"InvalidCity, XX\",\n  \"end_location\": \"San Francisco, CA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/plan/",
+          "host": ["{{base_url}}"],
+          "path": ["plan", ""]
+        },
+        "description": "Test error handling with an invalid location. Should return 404 with clear error message."
+      },
+      "response": []
+    },
+    {
+      "name": "13. Test Empty Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"\",\n  \"end_location\": \"\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/plan/",
+          "host": ["{{base_url}}"],
+          "path": ["plan", ""]
+        },
+        "description": "Test validation with empty locations. Should return 400 Bad Request."
+      },
+      "response": []
+    },
+    {
+      "name": "14. Test Same Start and End",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"start_location\": \"Los Angeles, CA\",\n  \"end_location\": \"Los Angeles, CA\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/plan/",
+          "host": ["{{base_url}}"],
+          "path": ["plan", ""]
+        },
+        "description": "Test validation when start and end are the same. Should return 400 Bad Request."
+      },
+      "response": []
+    }
+  ]
+}
